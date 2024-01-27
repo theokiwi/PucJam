@@ -20,6 +20,9 @@ public class RoomManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public int currentScene;
     public int mpScene;
 
+    public Vector3 puzzlerSpawn;
+    public Vector3 platformerSpawn;
+
     void Awake(){
         if(instance == null){
             instance = this;
@@ -29,7 +32,6 @@ public class RoomManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
         DontDestroyOnLoad(this.gameObject);
         pv = GetComponent<PhotonView>();
-
 
     }
 
@@ -127,9 +129,9 @@ public class RoomManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         Debug.Log("Player Create Called");
 
-        PhotonNetwork.Instantiate("player", transform.position, Quaternion.identity, 0);
+        Vector3 spawnPos = new Vector3(0f,51f,0f);
 
-        Debug.Log("Player Created");
+        PhotonNetwork.Instantiate("player", spawnPos, Quaternion.identity, 0);
     }
     
 

@@ -5,14 +5,10 @@ using UnityEngine;
 public class PlayerSetup : MonoBehaviour
 {
     public static PlayerSetup instance;
-
     // player selection essentials
     public int mySelectedCharacter;
-    public GameObject[] allCharacters;
+    public GameObject[] allCharacters;  
 
-    //player exclusive properties   
-    // public GameObject cam;
-    // public IMovement p_movement;
 
     void OnEnable(){
         if(instance == null){
@@ -27,8 +23,7 @@ public class PlayerSetup : MonoBehaviour
 
     void Start(){
         if(PlayerPrefs.HasKey("MyCharToChoose")){
-            mySelectedCharacter = PlayerPrefs.GetInt("MyCharToChoose");
-        }
+            mySelectedCharacter = PlayerPrefs.GetInt("MyCharToChoose");        }
         else{
             mySelectedCharacter = 0;
             PlayerPrefs.SetInt("MyCharToChoose", mySelectedCharacter);
