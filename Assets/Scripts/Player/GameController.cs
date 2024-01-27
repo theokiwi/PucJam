@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
         {
             foreach (IPlayables playables in characters)
             {
+                //switch the IMovements
                 if (playables.gameObject.GetComponent<IMovement>().isActiveAndEnabled == true)
                 {
                     playables.gameObject.GetComponent<IMovement>().enabled = false;
@@ -19,7 +20,16 @@ public class GameController : MonoBehaviour
                 else if (playables.gameObject.GetComponent<IMovement>().isActiveAndEnabled == false)
                 {
                     playables.gameObject.GetComponent<IMovement>().enabled = true;
-                    Debug.Log("Actived the unnactive");
+                    Debug.Log("Active<d the unnactive");
+                }
+
+                //switching the Cameras
+
+                if(playables.cam.activeSelf){
+                    playables.cam.SetActive(false);
+                }
+                else if(!playables.cam.activeSelf){
+                    playables.cam.SetActive(true);
                 }
 
             }

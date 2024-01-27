@@ -4,5 +4,6 @@ using UnityEngine;
 
 public abstract class IPlayables: MonoBehaviour
 {
-    
+    public GameObject cam;
+
 }
