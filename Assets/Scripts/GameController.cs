@@ -6,19 +6,36 @@ using Cinemachine;
 public class GameController : MonoBehaviour
 {
     public IPlayables[] characters;
-    [SerializeField] CinemachineVirtualCamera boyCamera;
-    [SerializeField] CinemachineVirtualCamera girlCamera;
+
+    public CinemachineVirtualCamera secondaryCamera;
+    private bool trocarCam = true;
+
+    void TrocarCameraSecundaria(){
+
+        CinemachineBrain cinemachineBrain = FindObjectOfType<CinemachineBrain>();
+        cinemachineBrain.ActiveVirtualCamera.Priority = 1;
+        secondaryCamera.Priority = 2;
+
+    }
+
+    void TrocarCameraPrincipal(){
+
+        CinemachineBrain cinemachineBrain = FindObjectOfType<CinemachineBrain>();
+        cinemachineBrain.ActiveVirtualCamera.Priority = 2;
+        secondaryCamera.Priority = 1;
+
+    }
 
     public void OnEnable(){
-        CameraSwitch.instance.Register(boyCamera);
-        CameraSwitch.instance.Register(girlCamera);
-        CameraSwitch.instance.SwitchCamera(girlCamera);
+        //CameraSwitch.instance.Register(boyCamera);
+        //CameraSwitch.instance.Register(girlCamera);
+        //CameraSwitch.instance.SwitchCamera(girlCamera);
 
     }
 
     public void OnDisable(){
-        CameraSwitch.instance.Unregister(boyCamera);
-        CameraSwitch.instance.Unregister(girlCamera);
+        //CameraSwitch.instance.Unregister(boyCamera);
+        //CameraSwitch.instance.Unregister(girlCamera);
     }
     void Update()
     {
@@ -37,18 +54,6 @@ public class GameController : MonoBehaviour
                     playables.gameObject.GetComponent<IMovement>().enabled = true;
                     Debug.Log("Active<d the unnactive IMovement");
                 }
-
-                //switch camera         
-                if(CameraSwitch.instance.IsActiveCamera(girlCamera)){
-                    CameraSwitch.instance.SwitchCamera(boyCamera);
-                    Debug.Log("Switched to boy camera");
-                }  
-                else if(CameraSwitch.instance.IsActiveCamera(boyCamera)){
-                    CameraSwitch.instance.SwitchCamera(girlCamera);
-                    Debug.Log("Switched to girl camera");
-
-                }      
-
                 //switch collisions
                 if(playables.gameObject.GetComponent<ICollisions>().isActiveAndEnabled == true){
                     playables.gameObject.GetComponent<ICollisions>().enabled = false;
@@ -60,6 +65,18 @@ public class GameController : MonoBehaviour
                 }
 
             }
+        }
+        if(Input.GetKey("left ctrl")){
+               if(trocarCam == true){
+                    trocarCam = !trocarCam;                    
+                    TrocarCameraPrincipal();
+                    Debug.Log("Secundaria");
+                    trocarCam = false;
+                }else{
+                    trocarCam = true;
+                    TrocarCameraSecundaria();
+                    Debug.Log("Principal");
+                } 
         }
     }
 }
