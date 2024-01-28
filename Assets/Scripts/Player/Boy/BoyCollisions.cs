@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BoyCollisions : ICollisions
@@ -7,7 +8,12 @@ public class BoyCollisions : ICollisions
     [SerializeField]
     private float forceMagnitude;
     public float maxDistance;
+    public CharacterController controller;
 
+    private void Awake()
+    {
+        controller = GetComponent<CharacterController>();
+    }
     void FixedUpdate()
     {
 
@@ -15,8 +21,6 @@ public class BoyCollisions : ICollisions
 
     void OnControllerColliderHit(ControllerColliderHit hitCon)
     {
-
-
         Vector3 direcao = new Vector3();
         Rigidbody rb = hitCon.collider.attachedRigidbody;
 
@@ -39,6 +43,26 @@ public class BoyCollisions : ICollisions
             }
         }
 
+        int maxColliders = 10;
+
+        LayerMask mask = LayerMask.GetMask("spotlights");
+        Vector3 p1 = transform.position + controller.center;
+
+
+        Collider[] hitColliders = new Collider[maxColliders];
+        int numColliders = Physics.OverlapSphereNonAlloc(p1, controller.height/2, hitColliders, mask);
+        for (int i = 0; i < numColliders; i++)
+        {
+            if (hitColliders[i].CompareTag("Spotlight"))
+            {
+                Debug.Log("joined the spotlight");
+                BoyMovement.instance.allowedToLight = true;
+                BoyMovement.instance.whichLight = hitColliders[i].gameObject.transform.GetComponentInChildren<LightSpotlight>();
+            }
+
+        }
+
     }
+
 }
 

@@ -4,14 +4,28 @@ using UnityEngine;
 
 public class BoyMovement : IMovement
 {
+    public static BoyMovement instance;
+    public LightSpotlight[] lightSpot;
     public CharacterController controller;
     public float speed = 5f;
 
     public float turnTime = 0.1f;
     public float turnVelocity;
 
+    public LightSpotlight whichLight;
+
+    public bool allowedToLight;
+    public bool alreadyPressed = false;
     void Awake()
     {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else if(instance != this)
+        {
+            Destroy(instance.gameObject);
+        }
         controller = GetComponent<CharacterController>();
     }
     void FixedUpdate()
@@ -29,7 +43,26 @@ public class BoyMovement : IMovement
             
             controller.Move(dir * speed * Time.deltaTime);
         }
+
+        if (allowedToLight)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                whichLight.ChangeSpotlight();
+                alreadyPressed = true;
+            }
+        }
+        if(allowedToLight && alreadyPressed)
+        {
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                allowedToLight = false;
+                alreadyPressed = false;
+            }
+            
+        }
         
     }
+    
 
 }

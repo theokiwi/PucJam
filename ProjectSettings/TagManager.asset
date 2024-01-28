@@ -6,11 +6,13 @@ TagManager:
   tags:
   - dark
   - box
+  - light
+  - Spotlight
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - spotlights
   - Water
   - UI
   - 

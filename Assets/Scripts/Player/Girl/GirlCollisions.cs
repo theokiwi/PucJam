@@ -1,17 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class GirlCollisions : ICollisions
 {
-    void FixedUpdate()
+    
+    private void FixedUpdate()
     {
         
     }
-    void OnCollisionEnter(Collision other)
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if(other.gameObject.CompareTag("dark")){
-            Debug.Log("Girl Collided With Dark");
+        
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("entered collision enter");
+        if (other.gameObject.CompareTag("dark"))
+        {
+            Debug.Log("COLLIDED WITH DARK");
+            GameController.instance.Lose();
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("light"))
+        {
+            GirlMovement.instance.canMove = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.gameObject.CompareTag("light"))
+        {
+            GirlMovement.instance.canMove = false;
         }
     }
 }

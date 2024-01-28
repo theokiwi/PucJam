@@ -2,15 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+
+    public static GameController instance;
     public IPlayables[] characters;
 
     public CinemachineVirtualCamera primaryCamera;
     public CinemachineVirtualCamera secondaryCamera;
     private bool trocarCam = true;
 
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+        }
+    }
     void TrocarCameraSecundaria(){
 
         CinemachineBrain cinemachineBrain = FindObjectOfType<CinemachineBrain>();
@@ -25,6 +39,12 @@ public class GameController : MonoBehaviour
         cinemachineBrain.ActiveVirtualCamera.Priority = 1;
         primaryCamera.Priority = 2;
 
+    }
+
+    public void Lose()
+    {
+        UIManager.instance.CallDeath();
+        SceneManager.LoadScene("Lost");
     }
 
 

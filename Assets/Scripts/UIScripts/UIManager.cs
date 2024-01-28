@@ -6,7 +6,24 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-    public Canvas menuCanvas;
+
+    public GameObject menuCanvas;
+
+    public GameObject pauseMenu;
+    public static bool gameIsPaused = false;
+
+    public GameObject deathCanvas;
+
+    public GameObject winCanvas;
+
+    public GameObject laprasCanvas;
+
+    public GameObject theoCanvas;
+
+    public GameObject optionsCanvas;
+
+    public GameObject currentCanvas;
+
     void Awake(){
         if(instance == null){
             instance = this;
@@ -16,10 +33,53 @@ public class UIManager : MonoBehaviour
         }
         DontDestroyOnLoad(instance.gameObject);
     }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameIsPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
+        }
+    }
+
+    public void Resume()
+    {
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1.0f;
+        gameIsPaused = false;
+    }
+
+    void Pause()
+    {
+        currentCanvas.SetActive(false);
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0.0f;
+        gameIsPaused = true;
+        currentCanvas = pauseMenu;
+    }
+
+    public void OnClickButtonMenu()
+    {
+        Time.timeScale = 1.0f;
+        gameIsPaused = false;
+        SceneManager.LoadScene("Menu");
+    }
 
     public void CallPlay(string scene){
-        menuCanvas.enabled = false;
+        currentCanvas.SetActive(false);
         LoadScene(scene);
+    }
+
+    public void CallDeath()
+    {
+        currentCanvas = deathCanvas;
+        deathCanvas.SetActive(true);
     }
 
     public void LoadScene(string scene){
