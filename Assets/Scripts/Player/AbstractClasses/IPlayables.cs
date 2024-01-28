@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Girl : IPlayables
+public abstract class IPlayables: MonoBehaviour
 {
-    
+
 }
