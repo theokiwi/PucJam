@@ -6,22 +6,28 @@ public class BoyCollisions : ICollisions
 {
     [SerializeField] 
     private float forceMagnitude;
+    public float maxDistance;
 
     void FixedUpdate()
     {
         
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    void OnControllerColliderHit(ControllerColliderHit hitCon)
     {
-        Rigidbody rb = hit.collider.attachedRigidbody;
+        Rigidbody rb = hitCon.collider.attachedRigidbody;
 
-        if(hit.collider.CompareTag("box")){
-            Vector3 forceDirection = hit.gameObject.transform.position - transform.position;
-            forceDirection.y = 0;
-            forceDirection.Normalize();
-
-            rb.AddForceAtPosition(forceDirection * forceMagnitude, transform.position, ForceMode.Impulse);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward),out hit, maxDistance))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * maxDistance, Color.green);
+            if (hitCon.collider.CompareTag("box"))
+            {
+                Debug.Log("hit a box");
+                Debug.Log(hit.normal);
+                hit.rigidbody.AddForce(hit.normal * forceMagnitude);
+            }
         }
+  
     }
 }

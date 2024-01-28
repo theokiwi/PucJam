@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
 {
     public IPlayables[] characters;
 
+    public CinemachineVirtualCamera primaryCamera;
     public CinemachineVirtualCamera secondaryCamera;
     private bool trocarCam = true;
 
@@ -21,22 +22,12 @@ public class GameController : MonoBehaviour
     void TrocarCameraPrincipal(){
 
         CinemachineBrain cinemachineBrain = FindObjectOfType<CinemachineBrain>();
-        cinemachineBrain.ActiveVirtualCamera.Priority = 2;
-        secondaryCamera.Priority = 1;
+        cinemachineBrain.ActiveVirtualCamera.Priority = 1;
+        primaryCamera.Priority = 2;
 
     }
 
-    public void OnEnable(){
-        //CameraSwitch.instance.Register(boyCamera);
-        //CameraSwitch.instance.Register(girlCamera);
-        //CameraSwitch.instance.SwitchCamera(girlCamera);
 
-    }
-
-    public void OnDisable(){
-        //CameraSwitch.instance.Unregister(boyCamera);
-        //CameraSwitch.instance.Unregister(girlCamera);
-    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -54,6 +45,14 @@ public class GameController : MonoBehaviour
                     playables.gameObject.GetComponent<IMovement>().enabled = true;
                     Debug.Log("Active<d the unnactive IMovement");
                 }
+
+                if(trocarCam == true){
+                    TrocarCameraSecundaria();
+                    trocarCam = false;
+                }else if(trocarCam == false){
+                    TrocarCameraPrincipal();
+                    trocarCam = true;
+                } 
                 //switch collisions
                 if(playables.gameObject.GetComponent<ICollisions>().isActiveAndEnabled == true){
                     playables.gameObject.GetComponent<ICollisions>().enabled = false;
@@ -65,18 +64,6 @@ public class GameController : MonoBehaviour
                 }
 
             }
-        }
-        if(Input.GetKey("left ctrl")){
-               if(trocarCam == true){
-                    trocarCam = !trocarCam;                    
-                    TrocarCameraPrincipal();
-                    Debug.Log("Secundaria");
-                    trocarCam = false;
-                }else{
-                    trocarCam = true;
-                    TrocarCameraSecundaria();
-                    Debug.Log("Principal");
-                } 
         }
     }
 }
