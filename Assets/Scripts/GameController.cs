@@ -9,13 +9,16 @@ public class GameController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera boyCamera;
     [SerializeField] CinemachineVirtualCamera girlCamera;
 
-
-
     public void OnEnable(){
         CameraSwitch.instance.Register(boyCamera);
         CameraSwitch.instance.Register(girlCamera);
         CameraSwitch.instance.SwitchCamera(girlCamera);
 
+    }
+
+    public void OnDisable(){
+        CameraSwitch.instance.Unregister(boyCamera);
+        CameraSwitch.instance.Unregister(girlCamera);
     }
     void Update()
     {
