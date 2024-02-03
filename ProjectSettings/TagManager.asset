@@ -8,6 +8,8 @@ TagManager:
   - box
   - light
   - Spotlight
+  - enemy
+  - win
   layers:
   - Default
   - TransparentFX
@@ -15,9 +17,9 @@ TagManager:
   - spotlights
   - Water
   - UI
-  - 
-  - 
-  - 
+  - AntiBox
+  - Box
+  - damagelights
   - 
   - 
   - 

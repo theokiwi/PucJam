@@ -47,6 +47,13 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene("Lost");
     }
 
+    public void Win()
+    {
+        UIManager.instance.CallWin();
+        SceneManager.LoadScene("Win");
+
+    }
+
 
     void Update()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,6 +25,9 @@ public class UIManager : MonoBehaviour
 
     public GameObject currentCanvas;
 
+
+    
+
     void Awake(){
         if(instance == null){
             instance = this;
@@ -31,8 +35,31 @@ public class UIManager : MonoBehaviour
         else if(instance != this){
             Destroy(instance.gameObject);
         }
-        DontDestroyOnLoad(instance.gameObject);
+        DontDestroyOnLoad(this);
     }
+
+    private void Start()
+    {
+        /*Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+        if (sceneName == "Game")
+        {
+            Debug.Log("scene game");
+            tutoriaisCanvas.SetActive(true);
+            //StartCoroutine(SwitchTutoriais());
+        }*/
+    }
+
+    //IEnumerator SwitchTutoriais()
+    //{
+       
+    //}
+
+    public void OpenURL(string url)
+    {
+        Application.OpenURL(url);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -76,13 +103,42 @@ public class UIManager : MonoBehaviour
         LoadScene(scene);
     }
 
+    IEnumerator passTest()
+    {
+        Debug.Log("called waiting");
+        yield return new WaitForSeconds(5f);
+    }
     public void CallDeath()
     {
         currentCanvas = deathCanvas;
         deathCanvas.SetActive(true);
     }
 
+    public void CallWin()
+    {
+        currentCanvas = winCanvas;
+        winCanvas.SetActive(true);
+    }
+
     public void LoadScene(string scene){
         SceneManager.LoadScene(scene);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void Tutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
+
+    public void ReloadMenu()
+    {
+        currentCanvas.SetActive(false);
+        SceneManager.LoadScene("Menu");
+        currentCanvas = menuCanvas;
+        currentCanvas.SetActive(true);
     }
 }

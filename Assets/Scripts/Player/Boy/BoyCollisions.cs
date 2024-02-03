@@ -59,7 +59,18 @@ public class BoyCollisions : ICollisions
                 BoyMovement.instance.allowedToLight = true;
                 BoyMovement.instance.whichLight = hitColliders[i].gameObject.transform.GetComponentInChildren<LightSpotlight>();
             }
+        }
 
+        LayerMask maskl = LayerMask.GetMask("damagelights");
+        Collider[] hitCollidersL = new Collider[maxColliders];
+        int numCollidersL = Physics.OverlapSphereNonAlloc(p1, controller.height / 2, hitColliders, maskl);
+        for (int i = 0; i < numCollidersL; i++)
+        {
+            if (hitColliders[i].CompareTag("light"))
+            {
+                Debug.Log("just hit light");
+                GameController.instance.Lose();
+            }
         }
 
     }

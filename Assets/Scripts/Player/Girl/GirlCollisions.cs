@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class GirlCollisions : ICollisions
@@ -16,13 +15,17 @@ public class GirlCollisions : ICollisions
         
     }
 
+ 
 
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("entered collision enter");
         if (other.gameObject.CompareTag("dark"))
         {
-            Debug.Log("COLLIDED WITH DARK");
+            GameController.instance.Lose();
+        }
+        if (other.gameObject.CompareTag("enemy"))
+        {
             GameController.instance.Lose();
         }
     }
@@ -31,6 +34,11 @@ public class GirlCollisions : ICollisions
         if (other.gameObject.CompareTag("light"))
         {
             GirlMovement.instance.canMove = true;
+        }
+        if (other.gameObject.CompareTag("win"))
+        {
+            Debug.Log("win");
+            GameController.instance.Win();
         }
     }
 
