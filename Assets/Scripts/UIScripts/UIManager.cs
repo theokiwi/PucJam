@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +10,7 @@ public class UIManager : MonoBehaviour
     public GameObject menuCanvas;
 
     public GameObject pauseMenu;
+
     public static bool gameIsPaused = false;
 
     public GameObject deathCanvas;
@@ -32,33 +32,17 @@ public class UIManager : MonoBehaviour
         if(instance == null){
             instance = this;
         }
-        else if(instance != this){
-            Destroy(instance.gameObject);
+        else if (instance != this){
+            Destroy(this.gameObject);
         }
         DontDestroyOnLoad(this);
     }
 
     private void Start()
     {
-        /*Scene currentScene = SceneManager.GetActiveScene();
-        string sceneName = currentScene.name;
-        if (sceneName == "Game")
-        {
-            Debug.Log("scene game");
-            tutoriaisCanvas.SetActive(true);
-            //StartCoroutine(SwitchTutoriais());
-        }*/
+    
     }
 
-    //IEnumerator SwitchTutoriais()
-    //{
-       
-    //}
-
-    public void OpenURL(string url)
-    {
-        Application.OpenURL(url);
-    }
 
     void Update()
     {
@@ -124,21 +108,4 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(scene);
     }
 
-    public void Quit()
-    {
-        Application.Quit();
-    }
-
-    public void Tutorial()
-    {
-        SceneManager.LoadScene("Tutorial");
-    }
-
-    public void ReloadMenu()
-    {
-        currentCanvas.SetActive(false);
-        SceneManager.LoadScene("Menu");
-        currentCanvas = menuCanvas;
-        currentCanvas.SetActive(true);
-    }
 }
